@@ -7,4 +7,9 @@ class FishingLogsController < ApplicationController
     render json: { status: 'SUCCESS', data: @fishing_log}
   end
 
+  def show
+    params = request.body.read.to_i
+    @fishing_log = FishingLog.find(params)
+  end
+
 end
