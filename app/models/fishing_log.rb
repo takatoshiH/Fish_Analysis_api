@@ -1,0 +1,2 @@
+class FishingLog < ApplicationRecord
+end
