@@ -8,8 +8,7 @@ class FishingLogsController < ApplicationController
   end
 
   def show
-    params = request.body.read.to_i
-    @fishing_log = FishingLog.find(params)
+    @fishing_log = FishingLog.find(params[:id])
   end
 
 end
