@@ -2,16 +2,9 @@ require "httpclient"
 require "json"
 require "date"
 
-app_id = "34ba6cc32f4168e39be785f092ef2114"
-location = "33.36,130.25"
+api_url = "https://tide736.net/api/get_tide.php?pc=40&hc=21&yr=2020&mn=02&dy=09&rg=day"
+responses = HTTPClient.get(api_url).body
+# responses = JSON.parse(HTTPClient.get(api_url).body)
 
-time = Time.parse((Date.today).to_s).to_i
-api_url = "https://api.darksky.net/forecast/#{app_id}/#{location},#{time}"
-responses = JSON.parse(HTTPClient.get(api_url).body)
-
-puts Time.at(responses["currently"]["time"])
-puts responses["currently"]["temperature"]
-puts responses["currently"]["pressure"]
-puts responses["currently"]["summary"]
-puts responses["currently"]["windSpeed"]
-puts responses["currently"]["humidity"]
+puts JSON.parse(responses)["tide"]["chart"]["2020-02-09"]["tide"].first
+puts JSON.parse(responses)["tide"]["chart"]["2020-02-09"]["tide"][1]
