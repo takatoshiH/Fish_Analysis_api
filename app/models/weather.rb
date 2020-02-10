@@ -13,14 +13,14 @@ class Weather < ApplicationRecord
   def self.getter
     time = Time.parse((Date.today).to_s).to_i
     api_url = "https://api.darksky.net/forecast/#{@@app_id}/#{@@location},#{time}"
-    responses = JSON.parse(HTTPClient.get(api_url).body)
+    responses = JSON.parse(HTTPClient.get(api_url).body)["currently"]
 
-    date = Time.at(responses["currently"]["time"])
-    temperature = responses["currently"]["temperature"]
-    pressure = responses["currently"]["pressure"]
-    weather = responses["currently"]["summary"]
-    windSpeed = responses["currently"]["windSpeed"]
-    humidity = responses["currently"]["humidity"]
+    date = Time.at(responses["time"])
+    temperature = responses["temperature"]
+    pressure = responses["pressure"]
+    weather = responses["summary"]
+    windSpeed = responses["windSpeed"]
+    humidity = responses["humidity"]
 
     Weather.create(date: date, temperature: temperature, pressure: pressure, weather: weather, wind_speed: windSpeed, humidity: humidity)
   end
