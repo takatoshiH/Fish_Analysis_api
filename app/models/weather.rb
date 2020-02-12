@@ -11,17 +11,21 @@ class Weather < ApplicationRecord
   @@location = "33.36,130.25"
 
   def self.getter
-    time = Time.parse((Date.today).to_s).to_i
-    api_url = "https://api.darksky.net/forecast/#{@@app_id}/#{@@location},#{time}"
-    responses = JSON.parse(HTTPClient.get(api_url).body)["currently"]
+    (0..30).each do |number|
+      time = Time.parse((Date.today - number).to_s).to_i
+      unless Weather.exists?(date: time)
+        api_url = "https://api.darksky.net/forecast/#{@@app_id}/#{@@location},#{time}"
+        responses = JSON.parse(HTTPClient.get(api_url).body)["currently"]
 
-    date = Time.at(responses["time"])
-    temperature = responses["temperature"]
-    pressure = responses["pressure"]
-    weather = responses["summary"]
-    windSpeed = responses["windSpeed"]
-    humidity = responses["humidity"]
+        date = Time.at(responses["time"])
+        temperature = responses["temperature"]
+        pressure = responses["pressure"]
+        weather = responses["summary"]
+        wind_sppeed = responses["windSpeed"]
+        humidity = responses["humidity"]
 
-    Weather.create(date: date, temperature: temperature, pressure: pressure, weather: weather, wind_speed: windSpeed, humidity: humidity)
+        Weather.create(date: date, temperature: temperature, pressure: pressure, weather: weather, wind_speed: wind_speed, humidity: humidity)
+      end
+    end
   end
 end
