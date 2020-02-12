@@ -21,7 +21,7 @@ class Weather < ApplicationRecord
         temperature = responses["temperature"]
         pressure = responses["pressure"]
         weather = responses["summary"]
-        wind_sppeed = responses["windSpeed"]
+        wind_speed = responses["windSpeed"]
         humidity = responses["humidity"]
 
         Weather.create(date: date, temperature: temperature, pressure: pressure, weather: weather, wind_speed: wind_speed, humidity: humidity)
