@@ -1,0 +1,2 @@
+class TidesController < ApplicationController
+end
