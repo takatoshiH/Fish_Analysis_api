@@ -10,7 +10,8 @@ class Weather < ApplicationRecord
   @@app_id = "34ba6cc32f4168e39be785f092ef2114"
   @@location = "33.36,130.25"
 
-  def self.getter
+  # 位置情報を踏まえて天気を取得するようにすること
+  def self.getter(city_key)
     (0..30).each do |number|
       time = Time.parse((Date.today - number).to_s).to_i
       unless Weather.exists?(date: time)
