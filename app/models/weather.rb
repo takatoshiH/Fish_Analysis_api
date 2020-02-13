@@ -11,7 +11,6 @@ class Weather < ApplicationRecord
 
   def self.getter(location)
     (0..15).each do |number|
-      time = Time.parse((Date.today - number).to_s).to_i
       unless Weather.exists?(date: Date.today - number)
         api_url = "https://api.darksky.net/forecast/#{@@app_id}/#{location},#{time}"
         responses = JSON.parse(HTTPClient.get(api_url).body)["currently"]

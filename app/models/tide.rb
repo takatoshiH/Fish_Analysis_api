@@ -4,10 +4,10 @@ class Tide < ApplicationRecord
   require "date"
 
   def self.getter(prefecture_key, port_key)
-    yesterday = (Date.today).to_s
-    year = yesterday.split("-").first
-    month = yesterday.split("-")[1]
-    day = yesterday.split("-")[2]
+    yesterday = (Date.today).to_s.split("-")
+    year = yesterday.first
+    month = yesterday[1]
+    day = yesterday[2]
 
     api_url = "https://tide736.net/api/get_tide.php?pc=#{prefecture_key}&hc=#{port_key}&yr=#{year}&mn=#{month}&dy=#{day}&rg=day"
 
