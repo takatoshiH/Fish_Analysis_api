@@ -8,18 +8,16 @@ class Weather < ApplicationRecord
   require "date"
 
   @@app_id = "34ba6cc32f4168e39be785f092ef2114"
-  @@location = "33.36,130.25"
 
-  # 位置情報を踏まえて天気を取得するようにすること
-  def self.getter(city_key)
-    (0..30).each do |number|
+  def self.getter(location)
+    (0..15).each do |number|
       time = Time.parse((Date.today - number).to_s).to_i
-      unless Weather.exists?(date: time)
-        api_url = "https://api.darksky.net/forecast/#{@@app_id}/#{@@location},#{time}"
+      unless Weather.exists?(date: Date.today - number)
+        api_url = "https://api.darksky.net/forecast/#{@@app_id}/#{location},#{time}"
         responses = JSON.parse(HTTPClient.get(api_url).body)["currently"]
 
         date = Time.at(responses["time"])
-        temperature = responses["temperature"]
+        temperature = convert_to_celsius(responses["temperature"])
         pressure = responses["pressure"]
         weather = responses["summary"]
         wind_speed = responses["windSpeed"]
@@ -28,5 +26,10 @@ class Weather < ApplicationRecord
         Weather.create(date: date, temperature: temperature, pressure: pressure, weather: weather, wind_speed: wind_speed, humidity: humidity)
       end
     end
+  end
+
+  private
+  def self.convert_to_celsius(temperature)
+    ((temperature - 32) / 1.8).round(1)
   end
 end
